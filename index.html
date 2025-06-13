@@ -27,6 +27,7 @@
   <script>
     let motifs = [];
     let generatedSequence = [];
+    let importedFileName = 'generated';  // default fallback
 
     // Parse CSV text into motifs array
     function parseCSV(text) {
@@ -66,6 +67,9 @@
         return;
       }
       const file = input.files[0];
+      // Extract filename without extension for export use
+      importedFileName = file.name.replace(/\.[^/.]+$/, ""); 
+
       const reader = new FileReader();
       reader.onload = function(e) {
         motifs = parseCSV(e.target.result);
@@ -129,7 +133,7 @@
 
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'generated_time_signature_sequence.csv';
+      a.download = importedFileName + ' timeSigGen.csv';
       a.click();
       URL.revokeObjectURL(url);
     }
